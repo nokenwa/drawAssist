@@ -81,10 +81,10 @@ def main():
         raise Exception("docker not found")
 
     docker_args = [
-        "--rm",
-        "--volume",
-        "/:/host",
-        "--workdir",
+        # "--rm",
+        # "--volume",
+        # "/:/host",
+        # "--workdir",
         "/host" + os.getcwd(),
         "--env",
         "PYTHONUNBUFFERED=x",
