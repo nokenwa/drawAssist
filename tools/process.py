@@ -142,7 +142,7 @@ if __name__ == '__main__':
         src = src.transpose((2, 0, 1))
 
         # [height, width, channels] => [batch, channel, height, width]
-        fuse = edge_pool.apply(run_caffe([src]))
+        fuse = edge_pool.apply(run_caffe(np.array([src])))
         fuse = fuse[border:-border, border:-border]
 
         with tempfile.NamedTemporaryFile(suffix=".png") as png_file, tempfile.NamedTemporaryFile(suffix=".mat") as mat_file:
