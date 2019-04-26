@@ -126,6 +126,7 @@ if __name__ == '__main__':
         net.blobs["data"].reshape(1, *src.shape)
         net.blobs["data"].data[...] = src
         net.forward()
+        print('Returning')
         return net.blobs["sigmoid-fuse"].data[0][0,:,:]
 
         
