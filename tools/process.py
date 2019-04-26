@@ -123,7 +123,9 @@ if __name__ == '__main__':
             # and then changing these hardcoded paths
             net = caffe.Net("/opt/caffe/hed/examples/hed/deploy.prototxt", "/opt/caffe/hed_pretrained_bsds.caffemodel", caffe.TEST)
             
-        net.blobs["data"].reshape(1, np.array(src).size)
+        net.blobs["data"].reshape(1, *src.shape)
+        print(*src.shape)
+        print(net.blobs["data"].shape)
         net.blobs["data"].data[...] = src
         net.forward()
         print('returning')
@@ -144,7 +146,7 @@ if __name__ == '__main__':
 
         # [height, width, channels] => [batch, channel, height, width]
         print('test 0')
-        fuse = edge_pool.apply(run_caffe([src]))
+        fuse = edge_pool.apply(run_caffe,[src])
         print('test 1')
         fuse = fuse[border:-border, border:-border]
         print('test 2')
