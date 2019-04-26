@@ -122,4 +122,4 @@ RUN pip install \
     uritemplate==3.0.0 \
     tensorflow-gpu==1.4.1
 
-CMD ["python3", "tools/process.py" "--input_dir sketches/resized" "--operation edges --output_dir" "sketches/edges"]
+CMD ["python", "tools/process.py" "--input_dir sketches/resized" "--operation edges --output_dir" "sketches/edges"]
