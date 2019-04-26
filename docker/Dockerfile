@@ -39,13 +39,13 @@ RUN git clone https://github.com/s9xie/hed hed && \
 RUN pip install --upgrade pip==9.0.3 && \
     cd python && for req in $(cat requirements.txt) pydot; do pip install $req; done && cd .. && \
     # https://github.com/s9xie/hed/pull/23
-RUN sed -i "s|add_subdirectory(examples)||g" CMakeLists.txt
+    sed -i "s|add_subdirectory(examples)||g" CMakeLists.txt && \
     # https://github.com/s9xie/hed/issues/11
-RUN sed -i "647s|//||" include/caffe/loss_layers.hpp
-RUN sed -i "648s|//||" include/caffe/loss_layers.hpp
-RUN mkdir build && cd build
-RUN cmake -DCPU_ONLY=1
-RUN make -j"$(nproc)"
+    sed -i "647s|//||" include/caffe/loss_layers.hpp && \
+    sed -i "648s|//||" include/caffe/loss_layers.hpp && \
+    mkdir build && cd build && \
+    cmake -DCPU_ONLY=1 .. && \
+    make -j"$(nproc)"
 
 ENV PYCAFFE_ROOT $CAFFE_ROOT/python
 ENV PYTHONPATH $PYCAFFE_ROOT:$PYTHONPATH
