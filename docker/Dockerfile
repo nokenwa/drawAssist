@@ -33,9 +33,8 @@ ENV CAFFE_ROOT=/opt/caffe
 
 RUN mkdir -p $CAFFE_ROOT
 RUN cd $CAFFE_ROOT
-RUN git clone https://github.com/s9xie/hed
-RUN cd hed
-RUN git checkout 9e74dd710773d8d8a469ad905c76f4a7fa08f945 
+RUN git clone https://github.com/s9xie/hed . && \
+    git checkout 9e74dd710773d8d8a469ad905c76f4a7fa08f945 
 RUN pip install --upgrade pip 
 RUN cd python
 RUN for req in $(cat requirements.txt) pydot; do pip install $req; done
