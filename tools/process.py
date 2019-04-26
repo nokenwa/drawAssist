@@ -123,13 +123,10 @@ if __name__ == '__main__':
             # and then changing these hardcoded paths
             net = caffe.Net("/opt/caffe/hed/examples/hed/deploy.prototxt", "/opt/caffe/hed_pretrained_bsds.caffemodel", caffe.TEST)
             
-        print('step0')
+
         net.blobs["data"].reshape(1, *src.shape)
-        print('step1')
         net.blobs["data"].data[...] = src
-        print('step2')
         net.forward()
-        print('Returning')
         return net.blobs["sigmoid-fuse"].data[0][0,:,:]
 
         
@@ -147,8 +144,9 @@ if __name__ == '__main__':
 
         # [height, width, channels] => [batch, channel, height, width]
         fuse = edge_pool.apply(run_caffe(np.array([src])))
+        print('test 1')
         fuse = fuse[border:-border, border:-border]
-
+        print('test 2')
         with tempfile.NamedTemporaryFile(suffix=".png") as png_file, tempfile.NamedTemporaryFile(suffix=".mat") as mat_file:
             scipy.io.savemat(mat_file.name, {"input": fuse})
             
@@ -169,7 +167,7 @@ if __name__ == '__main__':
     E = uint8(E * 255);
     imwrite(E, output_path);
     """
-
+        print('test3')
             config = dict(
                 input_path="'%s'" % mat_file.name,
                 output_path="'%s'" % png_file.name,
@@ -190,6 +188,7 @@ if __name__ == '__main__':
                 print("returncode:", e.returncode)
                 print("output:", e.output)
                 raise
+            print('reurning')
             return im.load(png_file.name)
 
 
