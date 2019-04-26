@@ -100,7 +100,7 @@ def main():
         if arg.startswith("/"):
             cmd[i] = "/host" + arg
 
-    args = [docker_path, "run"] + docker_args + ["my-docker"] + cmd
+    args = [docker_path, "run"] + docker_args + ["affinelayer/pix2pix-tensorflow:v3"] + cmd
 
     if not os.access("/var/run/docker.sock", os.R_OK):
         args = ["sudo"] + args
