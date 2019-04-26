@@ -143,6 +143,7 @@ if __name__ == '__main__':
         src = src.transpose((2, 0, 1))
 
         # [height, width, channels] => [batch, channel, height, width]
+        print('test 0')
         fuse = edge_pool.apply(run_caffe(np.array([src])))
         print('test 1')
         fuse = fuse[border:-border, border:-border]
