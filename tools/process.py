@@ -124,9 +124,10 @@ if __name__ == '__main__':
             net = caffe.Net("/opt/caffe/hed/examples/hed/deploy.prototxt", "/opt/caffe/hed_pretrained_bsds.caffemodel", caffe.TEST)
             
 
-        net.blobs["data"].reshape(1, *src.shape)
+        net.blobs["data"].reshape(1, *src.length)
         net.blobs["data"].data[...] = src
         net.forward()
+        print('returning')
         return net.blobs["sigmoid-fuse"].data[0][0,:,:]
 
         
@@ -144,7 +145,7 @@ if __name__ == '__main__':
 
         # [height, width, channels] => [batch, channel, height, width]
         print('test 0')
-        fuse = edge_pool.apply(run_caffe(np.array([src])))
+        fuse = edge_pool.apply(run_caffe([src]))
         print('test 1')
         fuse = fuse[border:-border, border:-border]
         print('test 2')
