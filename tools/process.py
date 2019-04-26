@@ -123,7 +123,7 @@ if __name__ == '__main__':
             # and then changing these hardcoded paths
             net = caffe.Net("/opt/caffe/hed/examples/hed/deploy.prototxt", "/opt/caffe/hed_pretrained_bsds.caffemodel", caffe.TEST)
             
-
+        print(*src)
         net.blobs["data"].reshape(1, len(*src))
         net.blobs["data"].data[...] = src
         net.forward()
