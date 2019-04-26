@@ -36,8 +36,8 @@ RUN cd $CAFFE_ROOT
 RUN git clone https://github.com/s9xie/hed hed && \
     cd hed && \
     git checkout 9e74dd710773d8d8a469ad905c76f4a7fa08f945 
-RUN pip install --upgrade pip && \
-    cd hed/python && for req in $(cat requirements.txt) pydot; do pip install $req; done && cd .. && \
+RUN pip install --upgrade pip
+RUN cd hed/python && for req in $(cat requirements.txt) pydot; do pip install $req; done && cd .. && \
     # https://github.com/s9xie/hed/pull/23
     sed -i "s|add_subdirectory(examples)||g" CMakeLists.txt && \
     # https://github.com/s9xie/hed/issues/11
