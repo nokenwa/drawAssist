@@ -145,11 +145,8 @@ if __name__ == '__main__':
         src = src.transpose((2, 0, 1))
 
         # [height, width, channels] => [batch, channel, height, width]
-        print('test 0')
         fuse = edge_pool.apply(run_caffe,[src])
-        print('test 1')
         fuse = fuse[border:-border, border:-border]
-        print('test 2')
         with tempfile.NamedTemporaryFile(suffix=".png") as png_file, tempfile.NamedTemporaryFile(suffix=".mat") as mat_file:
             scipy.io.savemat(mat_file.name, {"input": fuse})
             
@@ -170,7 +167,6 @@ if __name__ == '__main__':
     E = uint8(E * 255);
     imwrite(E, output_path);
     """
-            print('test3')
             config = dict(
                 input_path="'%s'" % mat_file.name,
                 output_path="'%s'" % png_file.name,
@@ -191,7 +187,6 @@ if __name__ == '__main__':
                 print("returncode:", e.returncode)
                 print("output:", e.output)
                 raise
-            print('reurning')
             return im.load(png_file.name)
 
 

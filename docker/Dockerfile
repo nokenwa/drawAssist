@@ -54,9 +54,12 @@ RUN echo "$CAFFE_ROOT/build/lib" >> /etc/ld.so.conf.d/caffe.conf && ldconfig
 RUN cd $CAFFE_ROOT && curl -O http://vcl.ucsd.edu/hed/hed_pretrained_bsds.caffemodel
 
 # octave
-RUN apt-get install -y --no-install-recommends octave liboctave-dev && \
-    octave --eval "pkg install -forge image" && \
-    echo "pkg load image;" >> /root/.octaverc
+RUN apt-get install -y software-properties-common
+RUN add-apt-repository -y ppa:octave/stable
+RUN apt-get update -y 
+RUN apt-get install -y octave liboctave-dev 
+RUN octave --eval "pkg install -forge image" 
+RUN echo "pkg load image;" >> /root/.octaverc
 
 RUN apt-get install -y --no-install-recommends unzip && \
     curl -O https://pdollar.github.io/toolbox/archive/piotr_toolbox.zip && \
