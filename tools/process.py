@@ -167,7 +167,7 @@ if __name__ == '__main__':
     E = uint8(E * 255);
     imwrite(E, output_path);
     """
-        print('test3')
+            print('test3')
             config = dict(
                 input_path="'%s'" % mat_file.name,
                 output_path="'%s'" % png_file.name,
