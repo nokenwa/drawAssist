@@ -81,10 +81,10 @@ def main():
         raise Exception("docker not found")
 
     docker_args = [
-        # "--rm",
-        # "--volume",
-        # "/:/host",
-        # "--workdir",
+        "--rm",
+        "--volume",
+        "/:/host",
+        "--workdir",
         "/host" + os.getcwd(),
         "--env",
         "PYTHONUNBUFFERED=x",
@@ -98,11 +98,13 @@ def main():
     for i, arg in enumerate(cmd):
         # change absolute paths
         if arg.startswith("/"):
-            cmd[i] = arg
-    args = [docker_path, "run"] + docker_args + ["my-docker"] + cmd
+            cmd[i] = "/host" + arg
+
+    args = [docker_path, "run"] + docker_args + ["affinelayer/pix2pix-tensorflow:v3"] + cmd
+
     if not os.access("/var/run/docker.sock", os.R_OK):
         args = ["sudo"] + args
-        
+
     print("running", " ".join(shlex.quote(a) for a in args))
     os.execvp(args[0], args)
 
