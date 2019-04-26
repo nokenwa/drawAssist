@@ -124,7 +124,7 @@ if __name__ == '__main__':
             net = caffe.Net("/opt/caffe/hed/examples/hed/deploy.prototxt", "/opt/caffe/hed_pretrained_bsds.caffemodel", caffe.TEST)
             
 
-        net.blobs["data"].reshape(1, *src.length)
+        net.blobs["data"].reshape(1, len(*src))
         net.blobs["data"].data[...] = src
         net.forward()
         print('returning')
