@@ -99,12 +99,12 @@ def main():
         # change absolute paths
         if arg.startswith("/"):
             cmd[i] = "/host" + arg
-
-    args = [docker_path, "run"] + docker_args + ["my-docker"] + cmd
-
+    print('test0')
+    args = [docker_path, "run"] + docker_args + ["latest"] + cmd
+    print('test1')
     if not os.access("/var/run/docker.sock", os.R_OK):
         args = ["sudo"] + args
-
+        
     print("running", " ".join(shlex.quote(a) for a in args))
     os.execvp(args[0], args)
 
