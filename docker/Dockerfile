@@ -31,20 +31,22 @@ RUN apt-get install -y --no-install-recommends \
 
 ENV CAFFE_ROOT=/opt/caffe
 
-RUN mkdir -p $CAFFE_ROOT && \
-    cd $CAFFE_ROOT && \
-    git clone https://github.com/s9xie/hed . && \
-    git checkout 9e74dd710773d8d8a469ad905c76f4a7fa08f945 && \
-    pip install --upgrade pip && \
-    cd python && for req in $(cat requirements.txt) pydot; do pip install $req; done && cd .. && \
+RUN mkdir -p $CAFFE_ROOT
+RUN cd $CAFFE_ROOT
+RUN git clone https://github.com/s9xie/hed . 
+RUN git checkout 9e74dd710773d8d8a469ad905c76f4a7fa08f945 
+RUN pip install --upgrade pip 
+RUN cd python
+RUN for req in $(cat requirements.txt) pydot; do pip install $req; done
+RUN cd .. 
     # https://github.com/s9xie/hed/pull/23
-    sed -i "s|add_subdirectory(examples)||g" CMakeLists.txt && \
+RUN sed -i "s|add_subdirectory(examples)||g" CMakeLists.txt
     # https://github.com/s9xie/hed/issues/11
-    sed -i "647s|//||" include/caffe/loss_layers.hpp && \
-    sed -i "648s|//||" include/caffe/loss_layers.hpp && \
-    mkdir build && cd build && \
-    cmake -DCPU_ONLY=1 .. && \
-    make -j"$(nproc)"
+RUN sed -i "647s|//||" include/caffe/loss_layers.hpp
+RUN sed -i "648s|//||" include/caffe/loss_layers.hpp
+RUN mkdir build && cd build
+RUN cmake -DCPU_ONLY=1
+RUN make -j"$(nproc)"
 
 ENV PYCAFFE_ROOT $CAFFE_ROOT/python
 ENV PYTHONPATH $PYCAFFE_ROOT:$PYTHONPATH
