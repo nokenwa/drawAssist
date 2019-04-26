@@ -34,6 +34,7 @@ ENV CAFFE_ROOT=/opt/caffe
 RUN mkdir -p $CAFFE_ROOT
 RUN cd $CAFFE_ROOT
 RUN git clone https://github.com/s9xie/hed hed && \
+    cd hed && \
     git checkout 9e74dd710773d8d8a469ad905c76f4a7fa08f945 
 RUN pip install --upgrade pip 
 RUN cd python
