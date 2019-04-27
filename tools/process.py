@@ -122,8 +122,9 @@ if __name__ == '__main__':
             # using this requires using the docker image or assembling a bunch of dependencies
             # and then changing these hardcoded paths
             net = caffe.Net("./caffe/examples/hed/deploy.prototxt", "./caffe/hed_pretrained_bsds.caffemodel", caffe.TEST)
-            
-        net.blobs["data"].reshape(1, *src.shape)
+        
+        shape = np.array(src).shape
+        net.blobs["data"].reshape(1, shape)
         net.blobs["data"].data[...] = src
         net.forward()
         return net.blobs["sigmoid-fuse"].data[0][0,:,:]
