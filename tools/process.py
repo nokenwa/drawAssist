@@ -121,7 +121,7 @@ if __name__ == '__main__':
             import caffe
             # using this requires using the docker image or assembling a bunch of dependencies
             # and then changing these hardcoded paths
-            net = caffe.Net("/opt/caffe/examples/hed/deploy.prototxt", "/opt/caffe/hed_pretrained_bsds.caffemodel", caffe.TEST)
+            net = caffe.Net("../caffe/examples/hed/deploy.prototxt", "../caffe/hed_pretrained_bsds.caffemodel", caffe.TEST)
             
         net.blobs["data"].reshape(1, *src.shape)
         net.blobs["data"].data[...] = src
