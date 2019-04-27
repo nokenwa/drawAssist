@@ -121,14 +121,11 @@ if __name__ == '__main__':
             import caffe
             # using this requires using the docker image or assembling a bunch of dependencies
             # and then changing these hardcoded paths
-            net = caffe.Net("/opt/caffe/hed/examples/hed/deploy.prototxt", "/opt/caffe/hed_pretrained_bsds.caffemodel", caffe.TEST)
+            net = caffe.Net("/opt/caffe/examples/hed/deploy.prototxt", "/opt/caffe/hed_pretrained_bsds.caffemodel", caffe.TEST)
             
         net.blobs["data"].reshape(1, *src.shape)
-        print(*src.shape)
-        print(net.blobs["data"].shape)
         net.blobs["data"].data[...] = src
         net.forward()
-        print('returning')
         return net.blobs["sigmoid-fuse"].data[0][0,:,:]
 
         
@@ -145,8 +142,9 @@ if __name__ == '__main__':
         src = src.transpose((2, 0, 1))
 
         # [height, width, channels] => [batch, channel, height, width]
-        fuse = edge_pool.apply(run_caffe,[src])
+        fuse = edge_pool.apply(run_caffe([src]))
         fuse = fuse[border:-border, border:-border]
+
         with tempfile.NamedTemporaryFile(suffix=".png") as png_file, tempfile.NamedTemporaryFile(suffix=".mat") as mat_file:
             scipy.io.savemat(mat_file.name, {"input": fuse})
             
@@ -167,6 +165,7 @@ if __name__ == '__main__':
     E = uint8(E * 255);
     imwrite(E, output_path);
     """
+
             config = dict(
                 input_path="'%s'" % mat_file.name,
                 output_path="'%s'" % png_file.name,

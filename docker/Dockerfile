@@ -31,13 +31,12 @@ RUN apt-get install -y --no-install-recommends \
 
 ENV CAFFE_ROOT=/opt/caffe
 
-RUN mkdir -p $CAFFE_ROOT
-RUN cd $CAFFE_ROOT
-RUN git clone https://github.com/s9xie/hed hed && \
-    cd hed && \
-    git checkout 9e74dd710773d8d8a469ad905c76f4a7fa08f945 
-RUN pip install --upgrade pip
-RUN cd hed/python && for req in $(cat requirements.txt) pydot; do pip install $req; done && cd .. && \
+RUN mkdir -p $CAFFE_ROOT && \
+    cd $CAFFE_ROOT && \
+    git clone https://github.com/s9xie/hed . && \
+    git checkout 9e74dd710773d8d8a469ad905c76f4a7fa08f945 && \
+    pip install --upgrade pip && \
+    cd python && for req in $(cat requirements.txt) pydot; do pip install $req; done && cd .. && \
     # https://github.com/s9xie/hed/pull/23
     sed -i "s|add_subdirectory(examples)||g" CMakeLists.txt && \
     # https://github.com/s9xie/hed/issues/11
@@ -55,12 +54,9 @@ RUN echo "$CAFFE_ROOT/build/lib" >> /etc/ld.so.conf.d/caffe.conf && ldconfig
 RUN cd $CAFFE_ROOT && curl -O http://vcl.ucsd.edu/hed/hed_pretrained_bsds.caffemodel
 
 # octave
-RUN apt-get install -y software-properties-common
-RUN add-apt-repository -y ppa:octave/stable
-RUN apt-get update -y 
-RUN apt-get install -y octave liboctave-dev 
-RUN octave --eval "pkg install -forge image" 
-RUN echo "pkg load image;" >> /root/.octaverc
+RUN apt-get install -y --no-install-recommends octave liboctave-dev && \
+    octave --eval "pkg install -forge image" && \
+    echo "pkg load image;" >> /root/.octaverc
 
 RUN apt-get install -y --no-install-recommends unzip && \
     curl -O https://pdollar.github.io/toolbox/archive/piotr_toolbox.zip && \
@@ -121,5 +117,3 @@ RUN pip install \
     six==1.10.0 \
     uritemplate==3.0.0 \
     tensorflow-gpu==1.4.1
-
-# CMD ["python", "tools/process.py" "--input_dir sketches/resized" "--operation edges --output_dir" "sketches/edges"]
