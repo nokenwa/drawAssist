@@ -123,8 +123,7 @@ if __name__ == '__main__':
             # and then changing these hardcoded paths
             net = caffe.Net("./caffe/examples/hed/deploy.prototxt", "./caffe/hed_pretrained_bsds.caffemodel", caffe.TEST)
         
-        shape = np.array(src).shape
-        net.blobs["data"].reshape(1, shape)
+        net.blobs["data"].reshape(1, np.array(src).size)
         net.blobs["data"].data[...] = src
         net.forward()
         return net.blobs["sigmoid-fuse"].data[0][0,:,:]
